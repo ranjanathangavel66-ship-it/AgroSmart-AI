@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgroBloom | Smart Farming</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f8f3;color:#20382c}button,input,select,textarea{font:inherit}button{cursor:pointer}
+header{background:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 2px 12px #00000008;position:sticky;top:0;z-index:4}
+.logo{font-weight:800;font-size:22px;color:#126b45}.logo span{color:#8fbe42}
+header small{display:block;font-size:11px;color:#7b8c80;font-weight:normal;margin-top:4px}
+.status{background:#e7f8e9;color:#247445;padding:9px 12px;border-radius:20px;font-size:12px}
+nav{display:flex;gap:8px;padding:12px 18px;background:#0d6547;overflow-x:auto;position:sticky;top:67px;z-index:3}
+nav button{white-space:nowrap;padding:11px 14px;border-radius:9px;background:transparent;color:#f0fff3;font-size:13px;font-weight:bold}
+nav button.active,nav button:hover{background:#d1f49d;color:#17472c}
+main{max-width:1200px;margin:auto;padding:22px}
+.page{display:none}.page.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.hero{background:linear-gradient(120deg,#0a6d4b,#36a96c);border-radius:20px;color:#fff;padding:28px;display:flex;justify-content:space-between;align-items:center;gap:15px;min-height:200px;overflow:hidden}
+.hero h1{font-size:clamp(27px,5vw,43px);margin:12px 0}.hero p{line-height:1.6;max-width:580px}.hero .art{font-size:76px}
+.kicker{font-size:11px;letter-spacing:1.4px;background:#ffffff25;border-radius:18px;padding:8px 11px;display:inline-block}
+.btn{background:#13784f;color:white;border:0;border-radius:9px;padding:11px 15px;font-weight:bold;margin-top:12px}.btn.light{background:white;color:#126b45}.btn.blue{background:#2488df}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:17px 0 25px}
+.card{background:#fff;border:1px solid #e1ebe2;border-radius:15px;padding:18px;box-shadow:0 4px 15px #1d49220a;min-width:0}
+.stat .icon{font-size:25px}.stat p{font-size:12px;color:#738278;margin:8px 0}.stat h3{color:#13754c;font-size:21px}
+h2.section{font-size:21px;margin:20px 0 13px}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.tile{cursor:pointer;transition:.15s}.tile:hover{transform:translateY(-3px);border-color:#9bd5a5}.tile .icon{font-size:30px;margin-bottom:10px}.tile h3,.card h3{font-size:17px;margin:0 0 9px}.tile p,.card p{font-size:13px;color:#6a7c70;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+label{display:block;font-size:13px;color:#496356;margin:12px 0 6px}
+input,select,textarea{width:100%;border:1px solid #d5e3d8;border-radius:9px;padding:11px;background:#fbfdfb;color:#263c31}
+.result{display:none;background:#e9f8eb;border:1px solid #bce5c4;border-radius:10px;padding:13px;margin-top:13px;font-size:14px;line-height:1.7;color:#175a36}.result.show{display:block}
+.tip{background:#eff9f0;border-radius:10px;padding:12px;margin-top:10px;font-size:13px;line-height:1.6}
+.weather{background:linear-gradient(120deg,#e0f4ff,#f2edff);padding:22px;border-radius:15px;margin-bottom:15px}.temp{font-size:40px;font-weight:bold;color:#197db4;margin:10px 0}
+.forecast{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:15px}.forecast div{text-align:center;background:#fff;border-radius:10px;padding:12px 5px;font-size:12px;line-height:2}
+.task{display:flex;align-items:center;gap:10px;border-bottom:1px solid #edf1ed;padding:12px 0}.task input{width:18px}.task span{font-size:14px}.task.done span{text-decoration:line-through;color:#839187}
+footer{text-align:center;font-size:12px;color:#809086;padding:24px;line-height:1.7}
+@media(max-width:700px){header{padding:13px}nav{top:61px;padding:9px;gap:4px}nav button{padding:10px;font-size:12px}main{padding:12px}.hero{padding:21px}.hero .art{font-size:47px}.stats{grid-template-columns:repeat(2,1fr);gap:9px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}.forecast{grid-template-columns:repeat(3,1fr)}.card{padding:14px}}
+</style>
+</head>
+<body>
+<header><div class="logo">🌿 Agro<span>Bloom</span><small>SMART FARMING ASSISTANT</small></div><div class="status">● Farming made smarter</div></header>
+<nav id="nav">
+<button class="active" data-page="home">🏡 Home</button>
+<button data-page="crop">🌱 Crop Advisor</button>
+<button data-page="water">💧 Irrigation</button>
+<button data-page="weather">🌤️ Weather</button>
+<button data-page="soil">🧪 Soil Health</button>
+<button data-page="plan">📅 Farm Planner</button>
+<button data-page="care">🐛 Crop Care</button>
+</nav>
+<main>
+<section class="page active" id="home">
+<div class="hero"><div><span class="kicker">WELCOME, FARMER!</span><h1>Grow Better.<br>Live Greener. 🌱</h1><p>Your friendly farming companion for crop ideas, water planning, soil notes and everyday farm care.</p><button class="btn light" data-go="crop">Explore Crop Advisor →</button></div><div class="art">🌾🌤️</div></div>
+<div class="stats">
+<div class="card stat"><div class="icon">🌿</div><p>Crop Health</p><h3>Looking Good</h3></div>
+<div class="card stat"><div class="icon">💧</div><p>Water Plan</p><h3>Check Today</h3></div>
+<div class="card stat"><div class="icon">🌤️</div><p>Weather</p><h3>Demo View</h3></div>
+<div class="card stat"><div class="icon">🌍</div><p>Soil Care</p><h3>Keep Learning</h3></div>
+</div>
+<h2 class="section">Your Farm Toolkit</h2>
+<div class="tiles">
+<div class="card tile" data-go="crop"><div class="icon">🌱</div><h3>Crop Advisor</h3><p>Get example crop ideas for your soil and water.</p></div>
+<div class="card tile" data-go="water"><div class="icon">💧</div><h3>Smart Irrigation</h3><p>Plan watering with simple farm observations.</p></div>
+<div class="card tile" data-go="weather"><div class="icon">🌤️</div><h3>Weather Corner</h3><p>Sample forecast layout and planning reminders.</p></div>
+<div class="card tile" data-go="soil"><div class="icon">🧪</div><h3>Soil Health</h3><p>Enter a soil pH reading for basic guidance.</p></div>
+<div class="card tile" data-go="plan"><div class="icon">📅</div><h3>Farm Planner</h3><p>Create a checklist for your daily farm tasks.</p></div>
+<div class="card tile" data-go="care"><div class="icon">🐛</div><h3>Crop Care Center</h3><p>Observe leaves and learn responsible care.</p></div>
+</div>
+</section>
+<section class="page" id="crop">
+<div class="hero"><div><span class="kicker">PERSONALIZED FARM TOOL</span><h1>🌱 Crop Advisor</h1><p>Select farm conditions to see general crop ideas.</p></div><div class="art">🌾</div></div>
+<div class="grid" style="margin-top:15px"><div class="card"><h3>Tell us about your farm</h3>
+<label for="cropSoil">Soil type</label><select id="cropSoil"><option value="alluvial">Alluvial</option><option value="clay">Clay</option><option value="sandy">Sandy</option><option value="black">Black</option><option value="red">Red</option></select>
+<label for="cropWater">Water availability</label><select id="cropWater"><option value="good">Good</option><option value="medium">Moderate</option><option value="low">Limited</option></select>
+<label for="cropSeason">Season</label><select id="cropSeason"><option>Normal</option><option>Rainy</option><option>Dry</option></select>
+<button class="btn" id="cropBtn">Get Crop Ideas ✨</button><div class="result" id="cropResult"></div></div>
+<div class="card"><h3>🌿 Helpful reminders</h3><div class="tip">Use seeds recommended for your local region.</div><div class="tip">Check planting season and reliable water sources.</div><div class="tip">A soil test helps guide fertilizer decisions.</div><p style="margin-top:12px">Crop ideas are examples only. Confirm with your local agriculture office.</p></div></div>
+</section>
+<section class="page" id="water">
+<div class="hero"><div><span class="kicker">SAVE WATER</span><h1>💧 Smart Irrigation</h1><p>Get a simple reminder from your observations.</p></div><div class="art">💦</div></div>
+<div class="grid" style="margin-top:15px"><div class="card"><h3>Farm conditions</h3>
+<label for="moisture">Soil moisture</label><select id="moisture"><option value="dry">Dry</option><option value="moist">Moderately moist</option><option value="wet">Wet</option></select>
+<label for="rain">Rain expected?</label><select id="rain"><option value="no">No</option><option value="yes">Yes</option></select>
+<label for="stage">Crop stage</label><select id="stage"><option>Seedling</option><option>Growing</option><option>Flowering</option><option>Near harvest</option></select>
+<button class="btn" id="waterBtn">Get Water Advice</button><div class="result" id="waterResult"></div></div>
+<div class="card"><h3>💧 Water-saving tips</h3><div class="tip">Water in the early morning when suitable.</div><div class="tip">Mulch may help soil retain moisture.</div><div class="tip">Check soil and rainfall before watering.</div><div class="tip">This tool does not connect to sensors or control a pump.</div></div></div>
+</section>
+<section class="page" id="weather">
+<div class="hero"><div><span class="kicker">PLAN AHEAD</span><h1>🌤️ Weather Corner</h1><p>Example forecast design for planning farm activities.</p></div><div class="art">☀️</div></div>
+<div class="weather" style="margin-top:15px"><p>📍 Example location: Tamil Nadu</p><div class="temp">28°C ☁️</div><h3>Partly Cloudy · Sample Data</h3><p style="margin-top:7px">Humidity: 68% · Wind: 12 km/h</p></div>
+<div class="card"><h3>Example 5-day outlook</h3><p>Values below are placeholders, not live weather.</p><div class="forecast"><div>Mon<br>☀️<br>28°</div><div>Tue<br>🌤️<br>29°</div><div>Wed<br>🌧️<br>27°</div><div>Thu<br>☀️<br>30°</div><div>Fri<br>🌦️<br>29°</div></div><div class="tip">Check a reliable local forecast before spraying or scheduling irrigation.</div></div>
+</section>
+<section class="page" id="soil">
+<div class="hero"><div><span class="kicker">HEALTHY SOIL, HEALTHY CROPS</span><h1>🧪 Soil Health</h1><p>Enter a pH value to get a basic educational note.</p></div><div class="art">🌍</div></div>
+<div class="grid" style="margin-top:15px"><div class="card"><h3>Soil pH checker</h3><label for="ph">Soil pH (0–14)</label><input id="ph" type="number" min="0" max="14" step="0.1" value="6.5"><button class="btn" id="soilBtn">Check Soil</button><div class="result" id="soilResult"></div></div><div class="card"><h3>🌱 Care for your soil</h3><div class="tip">Add suitable organic matter when appropriate.</div><div class="tip">Avoid using fertilizer without understanding soil needs.</div><div class="tip">Crop rotation can help maintain soil health.</div><p style="margin-top:12px">A pH value alone cannot diagnose all soil nutrient needs. Use a lab test for accurate advice.</p></div></div>
+</section>
+<section class="page" id="plan">
+<div class="hero"><div><span class="kicker">YOUR DAILY ROUTINE</span><h1>📅 Farm Planner</h1><p>Tick tasks when completed and add your own reminders.</p></div><div class="art">🗓️</div></div>
+<div class="grid" style="margin-top:15px"><div class="card"><h3>✅ Daily checklist</h3><div id="tasks">
+<label class="task"><input type="checkbox"><span>Check soil moisture</span></label>
+<label class="task"><input type="checkbox"><span>Inspect leaves for pests</span></label>
+<label class="task"><input type="checkbox"><span>Check watering equipment</span></label>
+<label class="task"><input type="checkbox"><span>Look for weeds</span></label></div>
+<label for="newTask">Add a task</label><input id="newTask" placeholder="Type a farm task"><button class="btn" id="addTaskBtn">+ Add Task</button><p id="count" style="margin-top:12px;font-size:12px;color:#708279">0 tasks completed</p></div>
+<div class="card"><h3>📝 Farm Notes</h3><label for="notes">Observations</label><textarea id="notes" rows="7" placeholder="Write your farm observations..."></textarea><button class="btn blue" id="saveNotes">Save Note</button><p id="noteMsg" style="margin-top:10px;font-size:12px;color:#708279">Notes remain while this page stays open.</p></div></div>
+</section>
+<section class="page" id="care">
+<div class="hero"><div><span class="kicker">OBSERVE EARLY</span><h1>🐛 Crop Care Center</h1><p>Simple reminders for observing plants and caring responsibly.</p></div><div class="art">🍃</div></div>
+<div class="tiles" style="margin-top:15px">
+<div class="card"><div style="font-size:29px">🐛</div><h3>Pest Monitoring</h3><p>Check both sides of leaves for holes, spots and insects.</p><div class="tip">INSPECT REGULARLY</div></div>
+<div class="card"><div style="font-size:29px">🍃</div><h3>Leaf Health</h3><p>Look for yellowing, wilting or unusual patterns. Symptoms alone cannot confirm a disease.</p><div class="tip">EARLY OBSERVATION</div></div>
+<div class="card"><div style="font-size:29px">🌧️</div><h3>Weather Planning</h3><p>Check a reliable local forecast before spraying or irrigating.</p><div class="tip">PLAN AHEAD</div></div>
+<div class="card"><div style="font-size:29px">🖼️</div><h3>Leaf Photo Preview</h3><label for="photo">Choose plant image</label><input id="photo" type="file" accept="image/*"><img id="preview" alt="Plant preview" style="display:none;max-width:100%;max-height:220px;margin-top:12px;border-radius:10px"></div>
+<div class="card"><div style="font-size:29px">♻️</div><h3>Healthy Soil</h3><p>Protect soil structure and avoid unnecessary fertilizer use.</p><div class="tip">SUSTAINABLE FARMING</div></div>
+<div class="card"><div style="font-size:29px">📚</div><h3>Farmer Reminder</h3><p>For suspected disease or pest outbreaks, consult a local agriculture officer.</p><div class="tip">LOCAL EXPERT ADVICE</div></div>
+</div>
+</section>
+<footer>🌿 AgroBloom · Smart Farming Assistant<br>Educational prototype. Weather and farm values are sample data, not live measurements.</footer>
+</main>
+<script>
+function showPage(id){
+ document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+ var page=document.getElementById(id);if(page)page.classList.add('active');
+ document.querySelectorAll('[data-page]').forEach(function(b){b.classList.toggle('active',b.dataset.page===id)});
+ var titles={home:'Your Farming Dashboard',crop:'Crop Advisor',water:'Smart Irrigation',weather:'Weather Corner',soil:'Soil Health',plan:'Farm Planner',care:'Crop Care Center'};
+ document.title=(titles[id]||'AgroBloom')+' | AgroBloom';
+ window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-page]').forEach(function(b){b.addEventListener('click',function(){showPage(b.dataset.page)})});
+document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){showPage(b.dataset.go)})});
+document.getElementById('cropBtn').addEventListener('click',function(){
+ var soil=document.getElementById('cropSoil').value,water=document.getElementById('cropWater').value,season=document.getElementById('cropSeason').value,crops;
+ if(water==='low')crops='Drought-tolerant millets and suitable pulses';
+ else if(soil==='clay')crops='Paddy where suitable, plus selected pulses';
+ else if(soil==='black')crops='Cotton, sorghum and suitable pulses';
+ else if(soil==='sandy')crops='Groundnut, millets and suitable pulses';
+ else if(soil==='red')crops='Millets, groundnut and suitable pulses';
+ else crops='Paddy, maize and suitable pulses';
+ if(season==='Dry'&&water==='low')crops='Drought-tolerant millets and suitable pulses';
+ var r=document.getElementById('cropResult');r.innerHTML='<b>Example crop ideas:</b><br>'+crops+'<br><br>Confirm local season, soil test and water availability with an agriculture expert.';r.classList.add('show');
+});
+document.getElementById('waterBtn').addEventListener('click',function(){
+ var m=document.getElementById('moisture').value,rain=document.getElementById('rain').value,stage=document.getElementById('stage').value,msg;
+ if(rain==='yes')msg='Rain is expected. Check actual soil moisture and the local forecast before irrigating.';
+ else if(m==='dry')msg='Soil feels dry. Check crop needs and root-zone moisture; watering may be needed.';
+ else if(m==='wet')msg='Soil is wet. Check drainage and avoid adding water until needed.';
+ else msg='Soil is moderately moist. Recheck later and water according to crop needs.';
+ var out=document.getElementById('waterResult');out.innerHTML='<b>Irrigation reminder</b><br>'+msg+'<br>Crop stage: '+stage+'.';out.classList.add('show');
+});
+document.getElementById('soilBtn').addEventListener('click',function(){
+ var ph=Number(document.getElementById('ph').value),out=document.getElementById('soilResult');
+ if(!Number.isFinite(ph)||ph<0||ph>14){out.textContent='Please enter a pH value from 0 to 14.';out.classList.add('show');return}
+ var label=ph<5.5?'acidic':ph>7.5?'alkaline':'within a commonly suitable range for many crops';
+ out.innerHTML='Entered pH: <b>'+ph+'</b><br>This reading is '+label+'.<br><br>A pH reading alone cannot determine soil fertility. Use a laboratory soil test for accurate advice.';out.classList.add('show');
+});
+function updateCount(){
+ var boxes=document.querySelectorAll('#tasks input[type=checkbox]'),done=0;
+ boxes.forEach(function(box){if(box.checked){done++;box.closest('.task').classList.add('done')}else{box.closest('.task').classList.remove('done')}});
+ document.getElementById('count').textContent=done+' of '+boxes.length+' tasks completed';
+}
+document.getElementById('tasks').addEventListener('change',updateCount);
+document.getElementById('addTaskBtn').addEventListener('click',function(){
+ var input=document.getElementById('newTask'),value=input.value.trim();if(!value){input.focus();return}
+ var label=document.createElement('label');label.className='task';var cb=document.createElement('input');cb.type='checkbox';var span=document.createElement('span');span.textContent=value;label.appendChild(cb);label.appendChild(span);document.getElementById('tasks').appendChild(label);input.value='';updateCount();
+});
+document.getElementById('saveNotes').addEventListener('click',function(){document.getElementById('noteMsg').textContent='Note is shown in the box above. It is not saved after closing this page.'});
+document.getElementById('photo').addEventListener('change',function(e){
+ var file=e.target.files&&e.target.files[0];if(!file||!file.type.startsWith('image/'))return;
+ var reader=new FileReader();reader.onload=function(){var img=document.getElementById('preview');img.src=reader.result;img.style.display='block'};reader.readAsDataURL(file);
+});
+updateCount();
+</script>
+</body>
+</html>
